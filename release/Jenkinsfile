@@ -31,5 +31,12 @@ pipeline {
 				}
 			}
 		}
+
+		stage("Deploy artifact") {
+			steps {
+				unstash "build"
+				archiveArtifacts includes: "${targetDirectory}.tar.gz"
+			}
+		}
 	}
 }
