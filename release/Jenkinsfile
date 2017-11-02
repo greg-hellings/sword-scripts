@@ -37,6 +37,7 @@ pipeline {
 						dir(targetDirectory) {
 							sh "${WORKSPACE}/sword-scripts/scripts/autobuild.sh"
 						}
+						sh "${WORKSPACE}/sword-scripts/scripts/test.sh"
 					}
 				}
 				stage("CMake") {
@@ -54,6 +55,7 @@ pipeline {
 						dir(targetDirectory) {
 							sh "${WORKSPACE}/sword-scripts/scripts/cmake.sh"
 						}
+						sh "${WORKSPACE}/sword-scripts/scripts/test.sh"
 					}
 				}
 			}
