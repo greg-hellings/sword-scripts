@@ -6,38 +6,39 @@ pipeline {
 
 	stages {
 		stage("Builds") {
-			parallel {
-				stage("Build - autotools") {
-					environment {
-						SWORD_PATH = "${WORKSPACE}/sword-modules"
-					}
-					steps {
-						cleanWs()
-						dir("sword-scripts") {
-							checkout scm
-						}
-						dir("sword") {
-							svn url: "${svn_url}"
-							sh "./autogen.sh"
-							sh "${WORKSPACE}/sword-scripts/scripts/autobuild.sh"
-						}
-						sh "${WORKSPACE}/sword-scripts/scripts/test.sh"
-					}
+			steps {
+				cleanWs()
+				dir("sword-scripts") {
+					checkout scm
 				}
-				stage("Build - CMake") {
-					environment {
-						SWORD_PATH = "${WORKSPACE}/sword-modules"
+				dir("sword") {
+					svn url: "${svn_url}"
+				}
+				parallel {
+					stage("Build - autotools") {
+						environment {
+							FLAVOR = "autotools"
+							SWORD_PATH = "${WORKSPACE}/${FLAVOR}-sword-modules"
+						}
+						steps {
+							dir("sword") {
+								sh "./autogen.sh"
+								sh "${WORKSPACE}/sword-scripts/scripts/autobuild.sh"
+							}
+							sh "${WORKSPACE}/sword-scripts/scripts/test.sh"
+						}
 					}
-					steps {
-						cleanWs()
-						dir("sword-scripts") {
-							checkout scm
+					stage("Build - CMake") {
+						environment {
+							FLAVOR = "cmake"
+							SWORD_PATH = "${WORKSPACE}/${FLAVOR}-sword-modules"
 						}
-						dir("sword") {
-							svn url: "${svn_url}"
-							sh "${WORKSPACE}/sword-scripts/scripts/cmake.sh"
+						steps {
+							dir("sword") {
+								sh "${WORKSPACE}/sword-scripts/scripts/cmake.sh"
+							}
+							sh "${WORKSPACE}/sword-scripts/scripts/test.sh"
 						}
-						sh "${WORKSPACE}/sword-scripts/scripts/test.sh"
 					}
 				}
 			}

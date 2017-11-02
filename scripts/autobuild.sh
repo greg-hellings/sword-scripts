@@ -1,7 +1,9 @@
 #!/bin/bash -ex
 
-./configure "--prefix=${WORKSPACE}/destination" \
-	"--sysconfdir=${WORKSPACE}/destination/etc" \
+mkdir -p ../autobuild
+cd ../autobuild
+../sword/configure "--prefix=${WORKSPACE}/${FLAVOR}-destination" \
+	"--sysconfdir=${WORKSPACE}/${FLAVOR}-destination/etc" \
 	--without-conf \
 	--disable-shared \
 	--enable-debug
