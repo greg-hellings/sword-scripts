@@ -21,34 +21,32 @@ pipeline {
 		}
 
 		stage("Build test") {
-			steps {
-				parallel {
-					stage("autotools") {
-						agent any
-						environment {
-							FLAVOR = "autotools"
-						}
-						steps {
-							cleanWs()
-							unstash "build"
-							sh "tar xaf ${targetDirectory}.tar.gz"
-							dir(targetDirectory) {
-								sh "${WORKSPACE}/sword-scripts/scripts/autobuild.sh"
-							}
+			parallel {
+				stage("autotools") {
+					agent any
+					environment {
+						FLAVOR = "autotools"
+					}
+					steps {
+						cleanWs()
+						unstash "build"
+						sh "tar xaf ${targetDirectory}.tar.gz"
+						dir(targetDirectory) {
+							sh "${WORKSPACE}/sword-scripts/scripts/autobuild.sh"
 						}
 					}
-					stage("CMake") {
-						agent any
-						environment {
-							FLAVOR = "cmake"
-						}
-						steps {
-							cleanWs()
-							unstash "build"
-							sh "tar xaf ${targetDirectory}.tar.gz"
-							dir(targetDirectory) {
-								sh "${WORKSPACE}/sword-scripts/scripts/cmake.sh"
-							}
+				}
+				stage("CMake") {
+					agent any
+					environment {
+						FLAVOR = "cmake"
+					}
+					steps {
+						cleanWs()
+						unstash "build"
+						sh "tar xaf ${targetDirectory}.tar.gz"
+						dir(targetDirectory) {
+							sh "${WORKSPACE}/sword-scripts/scripts/cmake.sh"
 						}
 					}
 				}
