@@ -15,7 +15,7 @@ pipeline {
 						}
 						dir("sword") {
 							svn url: "${svn_url}"
-							sh "autogen.sh"
+							sh "./autogen.sh"
 							sh "${WORKSPACE}/sword-scripts/scripts/autobuild.sh"
 						}
 						sh "${WORKSPACE}/sword-scripts/scripts/test.sh"
