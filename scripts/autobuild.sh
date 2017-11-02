@@ -6,6 +6,7 @@ cd ../autobuild
 	"--sysconfdir=${WORKSPACE}/${FLAVOR}-destination/etc" \
 	--without-conf \
 	--disable-shared \
-	--enable-debug
+	--enable-debug \
+	--disable-tests
 make -j4
 make install
