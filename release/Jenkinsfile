@@ -1,0 +1,20 @@
+pipeline {
+	agent any
+	parameters {
+		string(name: 'TAG', description: 'The SVN tag to export')
+		string(name: 'VERSION', description: 'The SVN version to checkout')
+	}
+	environment {
+		urlBase = "https://www.crosswire.org/svn/sword/tags/${TAG}"
+		targetDirectory = "sword-${VERSION}"
+	}
+
+	stages {
+		stage("Export") {
+			sh "svn export '${urlBase}' '${targetDirectory}'"
+			dir("${targetDirectory}/scripts") {
+				sh "./mkswordtar"
+			}
+		}
+	}
+}
