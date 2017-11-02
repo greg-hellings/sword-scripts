@@ -3,7 +3,7 @@
 export PATH="${WORKSPACE}/${FLAVOR}-destination/bin/":${PATH}
 export SWORD_PATH="${WORKSPACE}/${FLAVOR}-sword-path"
 
-mkdir -p "${SWORD_PATH}"
+mkdir -p "${SWORD_PATH}/mods.d"
 
 # Test a basic module install
 yes yes | installmgr -init
