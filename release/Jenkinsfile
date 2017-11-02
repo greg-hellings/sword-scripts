@@ -1,10 +1,10 @@
 pipeline {
 	agent any
 	parameters {
-		string(name: 'TAG', description: 'The SVN tag to export')
 		string(name: 'VERSION', description: 'The SVN version to checkout')
 	}
 	environment {
+		TAG = "sword-" + env.VERSION.replaceAll("\\.", "-")
 		urlBase = "https://www.crosswire.org/svn/sword/tags/${TAG}"
 		targetDirectory = "sword-${VERSION}"
 	}
