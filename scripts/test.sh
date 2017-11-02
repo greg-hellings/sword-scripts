@@ -6,6 +6,8 @@ export SWORD_PATH="${WORKSPACE}/${FLAVOR}-sword-path"
 mkdir -p "${SWORD_PATH}/mods.d"
 
 # Test a basic module install
+which installmgr
+ldd `which installmgr`
 yes yes | installmgr -init
 yes yes | installmgr -sc
 yes yes | installmgr -r CrossWire
