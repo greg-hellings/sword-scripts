@@ -5,25 +5,44 @@ pipeline {
 	}
 
 	stages {
-		parallel{
-			stage("Build - autotools") {
-				environment {
-					SWORD_PATH = "${WORKSPACE}/sword-modules"
+		stage("Builds") {
+			parallel {
+				stage("Build - autotools") {
+					environment {
+						SWORD_PATH = "${WORKSPACE}/sword-modules"
+						FLAVOR = "autotools"
+					}
+					steps {
+						cleanWs()
+						dir("sword-scripts") {
+							checkout scm
+						}
+						dir("sword") {
+							svn url: "${svn_url}"
+							sh "./autogen.sh"
+							sh "${WORKSPACE}/sword-scripts/scripts/autobuild.sh"
+						}
+						sh "${WORKSPACE}/sword-scripts/scripts/test.sh"
+					}
 				}
-				steps {
-					cleanWs()
-					dir("sword-scripts") {
-						checkout scm
+				stage("Build - CMake") {
+					environment {
+						SWORD_PATH = "${WORKSPACE}/sword-modules"
+						FLAVOR = "cmake"
 					}
-					dir("sword") {
-						svn url: "${svn_url}"
-						sh "./autogen.sh"
-						sh "${WORKSPACE}/sword-scripts/scripts/autobuild.sh"
+					steps {
+						cleanWs()
+						dir("sword-scripts") {
+							checkout scm
+						}
+						dir("sword") {
+							svn url: "${svn_url}"
+							sh "${WORKSPACE}/sword-scripts/scripts/cmake.sh"
+						}
+						sh "${WORKSPACE}/sword-scripts/scripts/test.sh"
 					}
-					sh "${WORKSPACE}/sword-scripts/scripts/test.sh"
 				}
 			}
-			// TODO: CMake build
 		}
 	}
 }

@@ -1,6 +1,6 @@
 #!/bin/bash -ex
 
-export PATH="${WORKSPACE}/destination/bin/":${PATH}
+export PATH="${WORKSPACE}/${FLAVOR}-destination/bin/":${PATH}
 
 # Test a basic module install
 installmgr -init
