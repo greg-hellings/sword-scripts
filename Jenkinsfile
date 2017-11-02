@@ -11,7 +11,8 @@ stage("Build test") {
 			sh "make -j4";
 		}
 	}};
-	builds["CMake"] = {node{
+	// CMake currently missing on build server
+	/*builds["CMake"] = {node{
 		cleanWs();
 		dir("sword") {
 			svn url: "${svn_url}";
@@ -20,6 +21,6 @@ stage("Build test") {
 				sh "make -j4";
 			}
 		}
-	}};
+	}};*/
 	parallel(builds);
 }
