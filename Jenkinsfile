@@ -5,7 +5,7 @@ pipeline {
 	}
 
 	stages {
-		stage("Builds") {
+		stage("Checkout") {
 			steps {
 				cleanWs()
 				dir("sword-scripts") {
@@ -14,8 +14,12 @@ pipeline {
 				dir("sword") {
 					svn url: "${svn_url}"
 				}
+			}
+		}
+		stage("Builds") {
+			steps {
 				parallel {
-					stage("Build - autotools") {
+					stage("autotools") {
 						environment {
 							FLAVOR = "autotools"
 							SWORD_PATH = "${WORKSPACE}/${FLAVOR}-sword-modules"
@@ -28,7 +32,7 @@ pipeline {
 							sh "${WORKSPACE}/sword-scripts/scripts/test.sh"
 						}
 					}
-					stage("Build - CMake") {
+					stage("CMake") {
 						environment {
 							FLAVOR = "cmake"
 							SWORD_PATH = "${WORKSPACE}/${FLAVOR}-sword-modules"
