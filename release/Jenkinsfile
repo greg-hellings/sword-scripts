@@ -31,6 +31,9 @@ pipeline {
 						cleanWs()
 						unstash "build"
 						sh "tar xaf ${targetDirectory}.tar.gz"
+						dir("sword-scripts") {
+							checkout scm
+						}
 						dir(targetDirectory) {
 							sh "${WORKSPACE}/sword-scripts/scripts/autobuild.sh"
 						}
@@ -45,6 +48,9 @@ pipeline {
 						cleanWs()
 						unstash "build"
 						sh "tar xaf ${targetDirectory}.tar.gz"
+						dir("sword-scripts") {
+							checkout scm
+						}
 						dir(targetDirectory) {
 							sh "${WORKSPACE}/sword-scripts/scripts/cmake.sh"
 						}
