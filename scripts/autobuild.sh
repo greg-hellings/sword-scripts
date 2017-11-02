@@ -1,4 +1,4 @@
 #!/bin/bash -ex
 
-./usrinst.sh
+./usrinst.sh "--prefix=${WORKSPACE}/destination"
 make -j4
