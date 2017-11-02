@@ -11,9 +11,11 @@ pipeline {
 
 	stages {
 		stage("Export") {
-			sh "svn export '${urlBase}' '${targetDirectory}'"
-			dir("${targetDirectory}/scripts") {
-				sh "./mkswordtar"
+			steps {
+				sh "svn export '${urlBase}' '${targetDirectory}'"
+				dir("${targetDirectory}/scripts") {
+					sh "./mkswordtar"
+				}
 			}
 		}
 	}
