@@ -10,6 +10,9 @@ pipeline {
 				stage("Build - autotools") {
 					steps {
 						cleanWs()
+						dir("sword-scripts") {
+							scm checkout
+						}
 						dir("sword") {
 							svn url: "${svn_url}"
 							sh "${WORKSPACE}/sword-scripts/scripts/autobuild.sh"
