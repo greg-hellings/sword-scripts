@@ -1,4 +1,4 @@
-def svn_url = "https://www.crosswire.org/svn/sword/branhces/sword-1-8-x/";
+def svn_url = "https://www.crosswire.org/svn/sword/branches/sword-1-8-x/";
 
 stage("Build test") {
 	def builds = [:];
