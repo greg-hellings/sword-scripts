@@ -2,7 +2,8 @@ def svn_url = "https://www.crosswire.org/svn/sword/trunk";
 
 node {
 	stage("Build test") {
-		parallel({
+		def builds = [:];
+		builds["autotools"] = {
 			cleanWs();
 			dir("sword") {
 				svn url: "${svn_url}";
@@ -10,7 +11,8 @@ node {
 				sh "./usrinst.sh";
 				sh "make -j4";
 			}
-		},{
+		};
+		biulds["CMake"] = {
 			cleanWs();
 			dir("sword") {
 				svn url: "${svn_url}";
@@ -19,6 +21,7 @@ node {
 					sh "make -j4";
 				}
 			}
-		});
+		};
+		parallel(builds);
 	}
 }
