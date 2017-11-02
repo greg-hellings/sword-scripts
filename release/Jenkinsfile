@@ -15,7 +15,7 @@ pipeline {
 				cleanWs()
 				sh "svn export '${urlBase}' '${targetDirectory}'"
 				sh "cd '${targetDirectory}/scripts' && ./mkswordtar"
-				stash "build", includes: "${targetDirectory}.tar.gz"
+				stash name: "build", includes: "${targetDirectory}.tar.gz"
 			}
 		}
 
