@@ -15,6 +15,19 @@ pipeline {
 				cleanWs()
 				sh "svn export '${urlBase}' '${targetDirectory}'"
 				sh "cd '${targetDirectory}/scripts' && ./mkswordtar"
+				stash "build", includes: "${targetDirectory}.tar.gz"
+			}
+		}
+
+		stage("Test build") {
+			steps {
+				cleanWs()
+				unstash "build"
+				sh "tar xaf ${targetDirectory}.tar.gz"
+				dir(targetDirectory) {
+					sh "./usrinst.sh"
+					sh "make -j4"
+				}
 			}
 		}
 	}
