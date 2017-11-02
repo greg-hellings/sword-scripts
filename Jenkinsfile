@@ -12,7 +12,7 @@ node {
 				sh "make -j4";
 			}
 		};
-		biulds["CMake"] = {
+		builds["CMake"] = {
 			cleanWs();
 			dir("sword") {
 				svn url: "${svn_url}";
