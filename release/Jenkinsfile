@@ -1,0 +1,42 @@
+pipeline {
+	agent any
+	parameters {
+		string(name: 'VERSION', description: 'The SVN version to checkout')
+	}
+	environment {
+		TAG_BASE = env.VERSION.replaceAll("\\.", "-")
+		TAG = "sword-${TAG_BASE}"
+		urlBase = "https://www.crosswire.org/svn/sword/tags/${TAG}"
+		targetDirectory = "sword-${VERSION}"
+	}
+
+	stages {
+		stage("Export") {
+			steps {
+				cleanWs()
+				sh "svn export '${urlBase}' '${targetDirectory}'"
+				sh "cd '${targetDirectory}/scripts' && ./mkswordtar"
+				stash name: "build", includes: "${targetDirectory}.tar.gz"
+			}
+		}
+
+		stage("Test build") {
+			steps {
+				cleanWs()
+				unstash "build"
+				sh "tar xaf ${targetDirectory}.tar.gz"
+				dir(targetDirectory) {
+					sh "./usrinst.sh"
+					sh "make -j4"
+				}
+			}
+		}
+
+		stage("Deploy artifact") {
+			steps {
+				unstash "build"
+				archiveArtifacts "${targetDirectory}.tar.gz"
+			}
+		}
+	}
+}

@@ -1,26 +1,28 @@
-def svn_url = "https://www.crosswire.org/svn/sword/branches/sword-1-8-x/";
+pipeline {
+	agent any
+	environment {
+		svn_url = "https://www.crosswire.org/svn/sword/branches/sword-1-8-x/"
+	}
 
-stage("Build test") {
-	def builds = [:];
-	builds["autotools"] = {node{
-		cleanWs();
-		dir("sword") {
-			svn url: "${svn_url}";
-			sh "./autogen.sh";
-			sh "./usrinst.sh";
-			sh "make -j4";
-		}
-	}};
-	// CMake currently missing on build server
-	/*builds["CMake"] = {node{
-		cleanWs();
-		dir("sword") {
-			svn url: "${svn_url}";
-			dir("build") {
-				sh "cmake ..";
-				sh "make -j4";
+	stages {
+		stage("Build test") {
+			parallel{
+				stage("Build - autotools") {
+					steps {
+						cleanWs()
+						dir("sword-scripts") {
+							checkout scm
+						}
+						dir("sword") {
+							svn url: "${svn_url}"
+							sh "${WORKSPACE}/sword-scripts/scripts/autobuild.sh"
+						}
+					}
+				}
+				// TODO: CMake build
 			}
 		}
-	}};*/
-	parallel(builds);
+	}
 }
+
+
