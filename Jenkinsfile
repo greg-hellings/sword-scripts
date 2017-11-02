@@ -10,7 +10,6 @@ pipeline {
 				stage("Build - autotools") {
 					environment {
 						SWORD_PATH = "${WORKSPACE}/sword-modules"
-						FLAVOR = "autotools"
 					}
 					steps {
 						cleanWs()
@@ -28,7 +27,6 @@ pipeline {
 				stage("Build - CMake") {
 					environment {
 						SWORD_PATH = "${WORKSPACE}/sword-modules"
-						FLAVOR = "cmake"
 					}
 					steps {
 						cleanWs()

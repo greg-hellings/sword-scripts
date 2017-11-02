@@ -2,8 +2,8 @@
 
 mkdir autobuild
 cd autobuild
-../configure "--prefix=${WORKSPACE}/${FLAVOR}-destination" \
-	"--sysconfdir=${WORKSPACE}/${FLAVOR}-destination/etc" \
+../configure "--prefix=${WORKSPACE}/destination" \
+	"--sysconfdir=${WORKSPACE}/destination/etc" \
 	--without-conf \
 	--disable-shared \
 	--enable-debug
