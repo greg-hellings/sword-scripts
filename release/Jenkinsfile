@@ -20,16 +20,18 @@ pipeline {
 			}
 		}
 
-		stage("Test build") {
-			steps {
-				cleanWs()
-				unstash "build"
-				sh "tar xaf ${targetDirectory}.tar.gz"
-				dir(targetDirectory) {
-					sh "./usrinst.sh"
-					sh "make -j4"
+		parallel {
+			stage("Build - autotools") {
+				steps {
+					cleanWs()
+					unstash "build"
+					sh "tar xaf ${targetDirectory}.tar.gz"
+					dir(targetDirectory) {
+						sh "${WORKSPACE}/sword-scripts/scripts/autobuild.sh"
+					}
 				}
 			}
+			// TODO: CMake build
 		}
 
 		stage("Deploy artifact") {
