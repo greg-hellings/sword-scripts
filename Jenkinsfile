@@ -1,9 +1,11 @@
+def svn_url = "https://www.crosswire.org/svn/sword/trunk";
+
 node {
 	stage("Build test") {
 		parallel({
 			cleanWs();
 			dir("sword") {
-				svn url: "https://www.crosswire.org/svn/sword/trunk";
+				svn url: "${svn_url}";
 				sh "./autogen.sh";
 				sh "./usrinst.sh";
 				sh "make -j4";
