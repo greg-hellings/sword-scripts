@@ -12,6 +12,7 @@ pipeline {
 	stages {
 		stage("Export") {
 			steps {
+				cleanWs()
 				sh "svn export '${urlBase}' '${targetDirectory}'"
 				dir("${targetDirectory}/scripts") {
 					sh "./mkswordtar"
