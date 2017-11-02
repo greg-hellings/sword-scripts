@@ -1,12 +1,15 @@
 #!/bin/bash -ex
 
 export PATH="${WORKSPACE}/${FLAVOR}-destination/bin/":${PATH}
+export SWORD_PATH="${WORKSPACE}/${FLAVOR}-sword-path"
+
+mkdir -p "${SWORD_PATH}"
 
 # Test a basic module install
-installmgr -init
-installmgr -sc
-installmgr -r CrossWire
-installmgr -ri CrossWire KJV
+yes yes | installmgr -init
+yes yes | installmgr -sc
+yes yes | installmgr -r CrossWire
+yes yes | installmgr -ri CrossWire KJV
 
 # Test getting text from Diatheke
 which diatheke
