@@ -11,7 +11,7 @@ pipeline {
 					steps {
 						cleanWs()
 						dir("sword-scripts") {
-							scm checkout
+							checkout scm
 						}
 						dir("sword") {
 							svn url: "${svn_url}"
