@@ -17,32 +17,30 @@ pipeline {
 			}
 		}
 		stage("Builds") {
-			steps {
-				parallel {
-					stage("autotools") {
-						environment {
-							FLAVOR = "autotools"
-							SWORD_PATH = "${WORKSPACE}/${FLAVOR}-sword-modules"
-						}
-						steps {
-							dir("sword") {
-								sh "./autogen.sh"
-								sh "${WORKSPACE}/sword-scripts/scripts/autobuild.sh"
-							}
-							sh "${WORKSPACE}/sword-scripts/scripts/test.sh"
-						}
+			parallel {
+				stage("autotools") {
+					environment {
+						FLAVOR = "autotools"
+						SWORD_PATH = "${WORKSPACE}/${FLAVOR}-sword-modules"
 					}
-					stage("CMake") {
-						environment {
-							FLAVOR = "cmake"
-							SWORD_PATH = "${WORKSPACE}/${FLAVOR}-sword-modules"
+					steps {
+						dir("sword") {
+							sh "./autogen.sh"
+							sh "${WORKSPACE}/sword-scripts/scripts/autobuild.sh"
 						}
-						steps {
-							dir("sword") {
-								sh "${WORKSPACE}/sword-scripts/scripts/cmake.sh"
-							}
-							sh "${WORKSPACE}/sword-scripts/scripts/test.sh"
+						sh "${WORKSPACE}/sword-scripts/scripts/test.sh"
+					}
+				}
+				stage("CMake") {
+					environment {
+						FLAVOR = "cmake"
+						SWORD_PATH = "${WORKSPACE}/${FLAVOR}-sword-modules"
+					}
+					steps {
+						dir("sword") {
+							sh "${WORKSPACE}/sword-scripts/scripts/cmake.sh"
 						}
+						sh "${WORKSPACE}/sword-scripts/scripts/test.sh"
 					}
 				}
 			}
