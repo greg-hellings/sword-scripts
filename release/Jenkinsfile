@@ -4,7 +4,8 @@ pipeline {
 		string(name: 'VERSION', description: 'The SVN version to checkout')
 	}
 	environment {
-		TAG = "sword-" + env.VERSION.replaceAll("\\.", "-")
+		TAG_BASE = env.VERSION.replaceAll("\\.", "-")
+		TAG = "sword-${TAG_BASE}"
 		urlBase = "https://www.crosswire.org/svn/sword/tags/${TAG}"
 		targetDirectory = "sword-${VERSION}"
 	}
