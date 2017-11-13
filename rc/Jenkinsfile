@@ -1,12 +1,12 @@
 pipeline {
 	agent any
 	parameters {
-		string(name: 'VERSION', description: 'The SVN version to checkout')
+		string(name: 'VERSION', description: 'Which version to call the RC')
 	}
 	environment {
-		TAG_BASE = env.VERSION.replaceAll("\\.", "-")
-		TAG = "sword-${TAG_BASE}"
-		urlBase = "https://www.crosswire.org/svn/sword/tags/${TAG}"
+		majorVersion = env.VERSION.split("\\.")[0]
+		minorVersion = env.VERSION.split("\\.")[1]
+		urlBase = "https://www.crosswire.org/svn/sword/trunk/"
 		targetDirectory = "sword-${VERSION}"
 	}
 
@@ -65,6 +65,7 @@ pipeline {
 			steps {
 				cleanWs()
 				unstash "build"
+				sh "cp '${targetDirectory}.tar.gz' '${RELEASE_DIR}/v${majorVersion}.${minorVersion}'"
 				sh "ls -lR ${RELEASE_DIR}"
 				archiveArtifacts "${targetDirectory}.tar.gz"
 			}
