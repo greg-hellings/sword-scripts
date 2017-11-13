@@ -6,7 +6,7 @@ pipeline {
 	environment {
 		majorVersion = "1"
 		minorVersion = "8"
-		urlBase = "https://www.crosswire.org/svn/sword/sword-1-8-x/"
+		urlBase = "https://www.crosswire.org/svn/sword/branches/sword-1-8-x/"
 		targetDirectory = "sword-${VERSION}"
 	}
 
