@@ -4,9 +4,9 @@ pipeline {
 		string(name: 'VERSION', description: 'Which version to call the RC')
 	}
 	environment {
-		majorVersion = env.VERSION.split("\\.")[0]
-		minorVersion = env.VERSION.split("\\.")[1]
-		urlBase = "https://www.crosswire.org/svn/sword/trunk/"
+		majorVersion = "1"
+		minorVersion = "8"
+		urlBase = "https://www.crosswire.org/svn/sword/sword-1-8-x/"
 		targetDirectory = "sword-${VERSION}"
 	}
 
