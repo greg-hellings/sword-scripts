@@ -18,6 +18,8 @@ which diatheke
 ldd `which diatheke`
 diatheke -b KJV -k Genesis.1.1
 
-# Run the official test suite
-cd "${WORKSPACE}/${targetDirectory}/tests/testsuite"
-./runall.sh
+if [ x"${FLAVOR}" = "xautotools" ]; then
+	# Run the official test suite
+	cd "${WORKSPACE}/${targetDirectory}/tests/testsuite"
+	./runall.sh
+fi
