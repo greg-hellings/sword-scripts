@@ -5,6 +5,6 @@
 	--without-conf \
 	--disable-shared \
 	--enable-debug \
-	--disable-tests
+	--enable-tests
 make -j4
 make install
