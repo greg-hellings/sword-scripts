@@ -6,6 +6,8 @@ pipeline {
 	environment {
 		TAG_BASE = env.VERSION.replaceAll("\\.", "-")
 		TAG = "sword-${TAG_BASE}"
+		MAJOR_VERSION = env.VERSION.split("\\.")[0]
+		MINOR_VERSION = env.VERSION.split("\\.")[1]
 		urlBase = "https://www.crosswire.org/svn/sword/tags/${TAG}"
 		targetDirectory = "sword-${VERSION}"
 	}
@@ -66,6 +68,7 @@ pipeline {
 				cleanWs()
 				unstash "build"
 				archiveArtifacts "${targetDirectory}.tar.gz"
+				sh "${WORKSPACE}/sword-scripts/scripts/release.sh"
 			}
 		}
 	}
