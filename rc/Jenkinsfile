@@ -65,8 +65,7 @@ pipeline {
 			steps {
 				cleanWs()
 				unstash "build"
-				sh "cp '${targetDirectory}.tar.gz' '${RELEASE_DIR}/v${majorVersion}.${minorVersion}'"
-				sh "ls -lR ${RELEASE_DIR}"
+				sh "cp '${targetDirectory}.tar.gz' '${ALPHA_DIR}/'"
 				archiveArtifacts "${targetDirectory}.tar.gz"
 			}
 		}
