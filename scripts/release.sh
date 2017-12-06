@@ -14,3 +14,4 @@ rm sword.tar.gz
 ln -s "v${MAJOR_VERSION}.${MINOR_VERSION}/${targetDirectory}.tar.gz" sword.tar.gz
 
 echo "${MD5}\n${SHA512}"
+echo "http://crosswire.org/sword/$(basename "$(dirname "$(pwd)")")/$(basename "$(pwd)")/${targetDirectory}.tar.gz"
