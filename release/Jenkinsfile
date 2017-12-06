@@ -5,11 +5,11 @@ pipeline {
 	}
 	environment {
 		TAG_BASE = env.VERSION.replaceAll("\\.", "-")
-		TAG = "sword-" + TAG_BASE
-		majorVersion = env.VERSION.split("\\.")[0]
-		minorVersion = env.VERSION.split("\\.")[1]
+		TAG = "sword-${TAG_BASE}"
+		majorVersion = "${env.VERSION.split('\\.')[0]}"
+		minorVersion = "${env.VERSION.split('\\.')[1]}"
 		urlBase = "https://www.crosswire.org/svn/sword/tags/${TAG}"
-		targetDirectory = "sword-" + VERSION
+		targetDirectory = "sword-${VERSION}"
 	}
 
 	stages {
