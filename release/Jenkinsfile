@@ -68,6 +68,9 @@ pipeline {
 				cleanWs()
 				unstash "build"
 				archiveArtifacts "${targetDirectory}.tar.gz"
+				dir("sword-scripts") {
+					checkout scm
+				}
 				sh "${WORKSPACE}/sword-scripts/scripts/release.sh"
 			}
 		}
