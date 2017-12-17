@@ -2,6 +2,7 @@ pipeline {
 	agent any
 	environment {
 		svn_url = "https://www.crosswire.org/svn/sword/branches/sword-1-8-x/"
+		targetDirectory = "sword"
 	}
 
 	stages {
@@ -11,36 +12,32 @@ pipeline {
 				dir("sword-scripts") {
 					checkout scm
 				}
-				dir("sword") {
+				dir(targetDirectory) {
 					svn url: "${svn_url}"
+					sh "./autogen.sh"
 				}
+				sh "tar caf ${targetDirectory}.tar.gz ${targetDirectory}"
+				stash name: "build", include: "${targetDirectory}.tar.gz"
 			}
 		}
 		stage("Builds") {
 			parallel {
 				stage("autotools") {
+					agent any
 					environment {
-						FLAVOR = "autotools"
 						SWORD_PATH = "${WORKSPACE}/${FLAVOR}-sword-modules"
 					}
 					steps {
-						dir("sword") {
-							sh "./autogen.sh"
-							sh "${WORKSPACE}/sword-scripts/scripts/autobuild.sh"
-						}
-						sh "${WORKSPACE}/sword-scripts/scripts/test.sh"
+						buildSword("autotools")
 					}
 				}
 				stage("CMake") {
+					agent any
 					environment {
-						FLAVOR = "cmake"
 						SWORD_PATH = "${WORKSPACE}/${FLAVOR}-sword-modules"
 					}
 					steps {
-						dir("sword") {
-							sh "${WORKSPACE}/sword-scripts/scripts/cmake.sh"
-						}
-						sh "${WORKSPACE}/sword-scripts/scripts/test.sh"
+						buildSword("cmake")
 					}
 				}
 			}
