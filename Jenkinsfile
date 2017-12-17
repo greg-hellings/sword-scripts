@@ -17,7 +17,7 @@ pipeline {
 					sh "./autogen.sh"
 				}
 				sh "tar caf ${targetDirectory}.tar.gz ${targetDirectory}"
-				stash name: "build", include: "${targetDirectory}.tar.gz"
+				stash name: "build", includes: "${targetDirectory}.tar.gz"
 			}
 		}
 		stage("Builds") {
