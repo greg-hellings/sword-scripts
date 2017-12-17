@@ -10,7 +10,7 @@ tar xaf "${targetDirectory}.tar.gz"
 cd ..
 find . -depth 1 -type l -print0 | while read -d $'\0' link; do rm -f "${link}"; done
 ln -s "v${majorVersion}.${minorVersion}/${targetDirectory}"
-rm sword.tar.gz
+rm -f sword.tar.gz
 ln -s "v${majorVersion}.${minorVersion}/${targetDirectory}.tar.gz" sword.tar.gz
 
 echo "${MD5}\n${SHA512}"
