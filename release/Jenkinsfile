@@ -6,8 +6,8 @@ pipeline {
 	environment {
 		TAG_BASE = env.VERSION.replaceAll("\\.", "-")
 		TAG = "sword-${TAG_BASE}"
-		MAJOR_VERSION = env.VERSION.split("\\.")[0]
-		MINOR_VERSION = env.VERSION.split("\\.")[1]
+		majorVersion = "${env.VERSION.split('\\.')[0]}"
+		minorVersion = "${env.VERSION.split('\\.')[1]}"
 		urlBase = "https://www.crosswire.org/svn/sword/tags/${TAG}"
 		targetDirectory = "sword-${VERSION}"
 	}
@@ -15,10 +15,7 @@ pipeline {
 	stages {
 		stage("Export") {
 			steps {
-				cleanWs()
-				sh "svn export '${urlBase}' '${targetDirectory}'"
-				sh "cd '${targetDirectory}/scripts' && ./mkswordtar"
-				stash name: "build", includes: "${targetDirectory}.tar.gz"
+				createTarball()
 			}
 		}
 
@@ -26,38 +23,14 @@ pipeline {
 			parallel {
 				stage("autotools") {
 					agent any
-					environment {
-						FLAVOR = "autotools"
-					}
 					steps {
-						cleanWs()
-						unstash "build"
-						sh "tar xaf ${targetDirectory}.tar.gz"
-						dir("sword-scripts") {
-							checkout scm
-						}
-						dir(targetDirectory) {
-							sh "${WORKSPACE}/sword-scripts/scripts/autobuild.sh"
-						}
-						sh "${WORKSPACE}/sword-scripts/scripts/test.sh"
+						buildSword("autotools")
 					}
 				}
 				stage("CMake") {
 					agent any
-					environment {
-						FLAVOR = "cmake"
-					}
 					steps {
-						cleanWs()
-						unstash "build"
-						sh "tar xaf ${targetDirectory}.tar.gz"
-						dir("sword-scripts") {
-							checkout scm
-						}
-						dir(targetDirectory) {
-							sh "${WORKSPACE}/sword-scripts/scripts/cmake.sh"
-						}
-						sh "${WORKSPACE}/sword-scripts/scripts/test.sh"
+						buildSword("cmake")
 					}
 				}
 			}
@@ -68,6 +41,9 @@ pipeline {
 				cleanWs()
 				unstash "build"
 				archiveArtifacts "${targetDirectory}.tar.gz"
+				dir("sword-scripts") {
+					checkout scm
+				}
 				sh "${WORKSPACE}/sword-scripts/scripts/release.sh"
 			}
 		}
