@@ -8,5 +8,5 @@ def call(String flavor) {
 	dir(targetDirectory) {
 		sh "${WORKSPACE}/sword-scripts/scripts/${flavor}.sh"
 	}
-	sh "${WORKSPACE}/sword-scripts/scripts/test.sh"
+	sh "${WORKSPACE}/sword-scripts/scripts/test.sh ${flavor}"
 }

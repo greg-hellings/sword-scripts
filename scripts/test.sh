@@ -1,5 +1,6 @@
 #!/bin/bash -ex
 
+FLAVOR="${1}"
 export PATH="${WORKSPACE}/${FLAVOR}-destination/bin/":${PATH}
 export SWORD_PATH="${WORKSPACE}/${FLAVOR}-sword-path"
 
