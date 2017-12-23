@@ -18,4 +18,4 @@ function release() {
 cd "${RELEASE_DIR}/v${majorVersion}.${minorVersion}"
 release
 
-echo "${MD5}\n${SHA512}\n${URL}"
+echo -e "${MD5}\n${SHA512}\n${URL}"
