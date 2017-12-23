@@ -25,13 +25,13 @@ pipeline {
 				stage("autotools") {
 					agent any
 					steps {
-						echo "build"
+						buildSword("autotools")
 					}
 				}
 				stage("CMake") {
 					agent any
 					steps {
-						echo "build"
+						buildSword("cmake")
 					}
 				}
 			}
