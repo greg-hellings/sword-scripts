@@ -8,5 +8,8 @@ FLAVOR="${1}"
 	--disable-shared \
 	--enable-debug \
 	--enable-tests
-make -j4
+make -j8
 make install
+
+cd tests/testsuite
+./runall.sh
