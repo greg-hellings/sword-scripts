@@ -6,6 +6,8 @@ mkdir build
 cd build
 cmake -DCMAKE_INSTALL_PREFIX="${WORKSPACE}/${FLAVOR}-destination" \
 	-DLIBSWORD_LIBRARY_TYPE="Static" \
+	-DSWORD_ENABLE_TESTS="Yes" \
 	..
-make -j4
+make -j8
 make install
+make tests
