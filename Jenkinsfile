@@ -1,7 +1,7 @@
 pipeline {
 	agent any
 	environment {
-		svn_url = "https://www.crosswire.org/svn/sword/branches/sword-1-8-x/"
+		svn_url = "https://www.crosswire.org/svn/sword/trunk"
 		targetDirectory = "sword"
 	}
 

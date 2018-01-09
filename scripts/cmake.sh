@@ -7,6 +7,8 @@ cd build
 cmake -DCMAKE_INSTALL_PREFIX="${WORKSPACE}/${FLAVOR}-destination" \
 	-DLIBSWORD_LIBRARY_TYPE="Static" \
 	-DSWORD_BINDINGS="Python" \
+	-DSWORD_BUILD_TESTS="Yes" \
 	..
-make -j4
+make -j8
 make install
+make tests
