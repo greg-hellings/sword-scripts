@@ -2,7 +2,6 @@
 
 MD5="$(md5sum "${targetDirectory}.tar.gz")"
 SHA512="$(sha512sum "${targetDirectory}.tar.gz")"
-URL="http://crosswire.org/ftpmirror/pub/sword/source/$(basename "$(pwd)")/${targetDirectory}.tar.gz"
 
 function release() {
 	cp "${WORKSPACE}/${targetDirectory}.tar.gz" .
@@ -16,6 +15,7 @@ function release() {
 }
 
 cd "${RELEASE_DIR}/v${majorVersion}.${minorVersion}"
+URL="http://crosswire.org/ftpmirror/pub/sword/source/$(basename "$(pwd)")/${targetDirectory}.tar.gz"
 release
 
 echo -e "${MD5}\n${SHA512}\n${URL}"
