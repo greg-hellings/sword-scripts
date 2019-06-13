@@ -1,5 +1,8 @@
 pipeline {
 	agent any
+	triggers {
+		pollSCM('H/10 * * * *')
+	}
 	environment {
 		svn_url = "https://www.crosswire.org/svn/sword/branches/sword-1-8-x/"
 		targetDirectory = "sword"
@@ -13,7 +16,7 @@ pipeline {
 					checkout scm
 				}
 				dir(targetDirectory) {
-					svn url: "${svn_url}"
+					svn url: "${svn_url}", poll: true
 					sh "./autogen.sh"
 				}
 				sh "tar caf ${targetDirectory}.tar.gz ${targetDirectory}"
