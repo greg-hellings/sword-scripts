@@ -6,7 +6,7 @@ def call(String flavor) {
 		checkout scm
 	}
 	dir(targetDirectory) {
-		sh "${WORKSPACE}/sword-scripts/scripts/${flavor}.sh ${flavor}"
+		sh "\"${WORKSPACE}/sword-scripts/scripts/${flavor}.sh\" ${flavor}"
 	}
-	sh "${WORKSPACE}/sword-scripts/scripts/test.sh ${flavor}"
+	sh "\"${WORKSPACE}/sword-scripts/scripts/test.sh\" ${flavor}"
 }
