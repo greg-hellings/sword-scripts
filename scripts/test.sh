@@ -8,7 +8,7 @@ mkdir -p "${SWORD_PATH}/mods.d"
 
 # Test a basic module install
 which installmgr
-ldd `which installmgr`
+ldd "`which installmgr`"
 yes yes | installmgr -init
 yes yes | installmgr -sc
 yes yes | installmgr -r CrossWire
@@ -16,5 +16,5 @@ yes yes | installmgr -ri CrossWire KJV
 
 # Test getting text from Diatheke
 which diatheke
-ldd `which diatheke`
+ldd "`which diatheke`"
 diatheke -b KJV -k Genesis.1.1
