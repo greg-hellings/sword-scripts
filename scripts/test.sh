@@ -1,4 +1,6 @@
-#!/bin/bash -ex
+#!/bin/bash
+
+set -ex -o pipefail
 
 FLAVOR="${1}"
 export PATH="${WORKSPACE}/${FLAVOR}-destination/bin/":${PATH}

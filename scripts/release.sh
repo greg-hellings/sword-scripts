@@ -1,4 +1,6 @@
-#!/bin/bash -ex
+#!/bin/bash
+
+set -ex -o pipefail
 
 MD5="$(md5sum "${targetDirectory}.tar.gz")"
 SHA512="$(sha512sum "${targetDirectory}.tar.gz")"
